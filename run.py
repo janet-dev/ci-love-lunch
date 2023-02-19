@@ -128,7 +128,7 @@ def get_stock_values(data):
     headings = stock[0]                 # get the list of headings at row 0
 
     result = {}                         # declare the dict
-    for r in range(1, len(data)):       # for each lunch -
+    for r in range(0, len(data)):       # for each lunch -
         result[headings[r]] = data[r]   # create a new 'key,value' pair
 
     return result
