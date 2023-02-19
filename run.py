@@ -94,7 +94,7 @@ def calculate_surplus_data(sales_row):
 def get_last_5_entries_sales():
     """
     Collects columns of data from sales worksheet, collecting
-    the last 5 entries for each sandwich and returns the data
+    the last 5 entries for each lunch and returns the data
     as a list of lists.
     """
     sales = SHEET.worksheet("sales")
@@ -123,6 +123,17 @@ def calculate_stock_data(data):
     return new_stock_data
 
 
+def get_stock_values(data):
+    stock = SHEET.worksheet("stock").get_all_values()
+    headings = stock[0]                 # get the list of headings at row 0
+
+    result = {}                         # declare the dict
+    for r in range(1, len(data)):       # for each lunch -
+        result[headings[r]] = data[r]   # create a new 'key,value' pair
+
+    return result
+
+
 def main():
     """
     Run all program functions
@@ -130,11 +141,17 @@ def main():
     data = get_sales_data()
     sales_data = [int(num) for num in data]
     update_worksheet(sales_data, "sales")
+
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
+
     sales_columns = get_last_5_entries_sales()
     stock_data = calculate_stock_data(sales_columns)
     update_worksheet(stock_data, "stock")
+
+    stock_values = get_stock_values(stock_data)
+    print("Make the following quantities for tomorrow:\n")
+    print(stock_values)
 
 
 print("\n*** Welcome to Love Lunch Data Automation ***\n")
